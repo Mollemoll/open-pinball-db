@@ -27,6 +27,9 @@ class Client:
             params=params,
         )
 
+    def get_machine_by_ipdb_id(self, ipdb_id: int):
+        return self._get(endpoint=f"machines/ipdb/{ipdb_id}")
+
     def _get(self, endpoint: str, params: dict = None):
         url = f"{self.base_url}/{endpoint}"
         response = requests.get(url, headers=self.headers, params=params)
