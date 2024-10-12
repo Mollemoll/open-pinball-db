@@ -1,15 +1,20 @@
+""" Tests for the opdb.Client class. """
+
 import unittest
+import json
 import requests
 import responses
 import opdb
 
-
 class TestClient(unittest.TestCase):
+    """ Test the opdb.Client class """
+
     def test_initialization(self):
-        self.client = opdb.Client()
-        self.assertEqual(self.client.base_url, "https://opdb.org/api")
+        """ Test the initialization of the client """
+        client = opdb.Client()
+        self.assertEqual(client.base_url, "https://opdb.org/api")
         self.assertEqual(
-            self.client.headers,
+            client.headers,
             {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
@@ -17,10 +22,11 @@ class TestClient(unittest.TestCase):
             })
 
     def test_initialization_with_api_key(self):
-        self.client = opdb.Client(api_key="my-secret-api-key")
-        self.assertEqual(self.client.base_url, "https://opdb.org/api")
+        """ Test the initialization of the client with an api key"""
+        client = opdb.Client(api_key="my-secret-api-key")
+        self.assertEqual(client.base_url, "https://opdb.org/api")
         self.assertEqual(
-            self.client.headers,
+            client.headers,
             {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
@@ -47,9 +53,9 @@ class TestClient(unittest.TestCase):
             status=200
         )
 
-        self.client = opdb.Client()
+        client = opdb.Client()
         self.assertEqual(
-            self.client.get_changelog(),
+            client.get_changelog(),
             [
                 {
                     "changelog_id": 1,
@@ -71,12 +77,13 @@ class TestClient(unittest.TestCase):
             body=requests.exceptions.Timeout()
         )
 
-        self.client = opdb.Client()
+        client = opdb.Client()
         with self.assertRaises(requests.exceptions.Timeout):
-            self.client.get_changelog()
+            client.get_changelog()
 
     @responses.activate
     def test_typeahead_search(self):
+        """ Test the typeahead search method """
         responses.add(
             responses.GET,
             'https://opdb.org/api/search/typeahead?q=Metallica',
@@ -92,9 +99,9 @@ class TestClient(unittest.TestCase):
             status=200
         )
 
-        self.client = opdb.Client()
+        client = opdb.Client()
         self.assertEqual(
-            self.client.typeahead_search("Metallica"),
+            client.typeahead_search("Metallica"),
             [
                 {
                     "id": "GRBE4-MOE4l",
@@ -108,6 +115,7 @@ class TestClient(unittest.TestCase):
 
     @responses.activate
     def test_typeahead_search_with_groups(self):
+        """ Test the typeahead search method with groups """
         responses.add(responses.GET,
                       'https://opdb.org/api/search/typeahead?q=Metallica&include_groups=1',
                       json=[{"id": "GRBE4",
@@ -121,9 +129,9 @@ class TestClient(unittest.TestCase):
                             ],
                       status=200)
 
-        self.client = opdb.Client()
+        client = opdb.Client()
         self.assertEqual(
-            self.client.typeahead_search("Metallica", include_groups=True),
+            client.typeahead_search("Metallica", include_groups=True),
             [
                 {
                     "id": "GRBE4",
@@ -142,6 +150,7 @@ class TestClient(unittest.TestCase):
 
     @responses.activate
     def test_typeahead_search_without_aliases(self):
+        """ Test the typeahead search method without aliases """
         responses.add(
             responses.GET,
             'https://opdb.org/api/search/typeahead?q=Metallica&include_aliases=0',
@@ -155,9 +164,9 @@ class TestClient(unittest.TestCase):
             ],
             status=200)
 
-        self.client = opdb.Client()
+        client = opdb.Client()
         self.assertEqual(
-            self.client.typeahead_search("Metallica", include_aliases=False),
+            client.typeahead_search("Metallica", include_aliases=False),
             [
                 {
                     "id": "GRBE4-MOE4l",
@@ -171,55 +180,17 @@ class TestClient(unittest.TestCase):
 
     @responses.activate
     def test_get_machine_by_ipdb_id(self):
+        """ Test the get_machine_by_ipdb_id method """
+        with open('fixtures/ipdb_machine.json', 'r', encoding='utf-8') as file:
+            data = json.load(file)
         responses.add(
             responses.GET,
             'https://opdb.org/api/machines/ipdb/6028',
-            json={
-                "opdb_id": "GRBE4-MQK1Z",
-                "is_machine": True,
-                "name": "Metallica (Pro)",
-                "common_name": None,
-                "shortname": "MET",
-                "physical_machine": 1,
-                "ipdb_id": 6028,
-                "manufacture_date": "2013-04-12",
-                "manufacturer": {
-                    "manufacturer_id": 12,
-                    "name": "Stern",
-                    "full_name": "Stern Pinball, Inc.",
-                    "created_at": "2018-03-11",
-                    "updated_at": "2018-03-11"},
-                "type": "ss",
-                "display": "dmd",
-                "player_count": 4,
-                "features": ["Pro edition"],
-                "keywords": ["music"],
-                "description": "",
-                "created_at": "2018-03-11",
-                "updated_at": "2018-03-14",
-                "images": [
-                    {
-                        "title": "Backglass",
-                        "primary": True,
-                        "type": "backglass",
-                        "urls": {
-                            "medium": "https://img.opdb.org/73b05a42-9dbe-460d-a710-7a01085b4911-medium.jpg",
-                            "large": "https://img.opdb.org/73b05a42-9dbe-460d-a710-7a01085b4911-large.jpg",
-                            "small": "https://img.opdb.org/73b05a42-9dbe-460d-a710-7a01085b4911-small.jpg"},
-                        "sizes": {
-                            "medium": {
-                                "width": 640,
-                                "height": 473},
-                            "large": {
-                                "width": 812,
-                                "height": 600},
-                            "small": {
-                                "width": 250,
-                                "height": 185}}}]},
+            json=data,
             status=200,
         )
 
-        self.client = opdb.Client()
-        response = self.client.get_machine_by_ipdb_id(6028)
+        client = opdb.Client()
+        response = client.get_machine_by_ipdb_id(6028)
         self.assertEqual(responses.calls[-1].response.status_code, 200)
         self.assertEqual(response["ipdb_id"], 6028)
