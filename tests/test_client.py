@@ -6,10 +6,11 @@ import opdb
 
 class TestClient(unittest.TestCase):
     def test_initialization(self):
-        self.client = opdb.Client()
-        self.assertEqual(self.client.base_url, "https://opdb.org/api")
+        """ Test the initialization of the client """
+        client = opdb.Client()
+        self.assertEqual(client.base_url, "https://opdb.org/api")
         self.assertEqual(
-            self.client.headers,
+            client.headers,
             {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
@@ -17,10 +18,11 @@ class TestClient(unittest.TestCase):
             })
 
     def test_initialization_with_api_key(self):
-        self.client = opdb.Client(api_key="my-secret-api-key")
-        self.assertEqual(self.client.base_url, "https://opdb.org/api")
+        """ Test the initialization of the client with an api key"""
+        client = opdb.Client(api_key="my-secret-api-key")
+        self.assertEqual(client.base_url, "https://opdb.org/api")
         self.assertEqual(
-            self.client.headers,
+            client.headers,
             {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
@@ -47,9 +49,9 @@ class TestClient(unittest.TestCase):
             status=200
         )
 
-        self.client = opdb.Client()
+        client = opdb.Client()
         self.assertEqual(
-            self.client.get_changelog(),
+            client.get_changelog(),
             [
                 {
                     "changelog_id": 1,
@@ -71,12 +73,13 @@ class TestClient(unittest.TestCase):
             body=requests.exceptions.Timeout()
         )
 
-        self.client = opdb.Client()
+        client = opdb.Client()
         with self.assertRaises(requests.exceptions.Timeout):
-            self.client.get_changelog()
+            client.get_changelog()
 
     @responses.activate
     def test_typeahead_search(self):
+        """ Test the typeahead search method """
         responses.add(
             responses.GET,
             'https://opdb.org/api/search/typeahead?q=Metallica',
@@ -92,9 +95,9 @@ class TestClient(unittest.TestCase):
             status=200
         )
 
-        self.client = opdb.Client()
+        client = opdb.Client()
         self.assertEqual(
-            self.client.typeahead_search("Metallica"),
+            client.typeahead_search("Metallica"),
             [
                 {
                     "id": "GRBE4-MOE4l",
@@ -121,9 +124,9 @@ class TestClient(unittest.TestCase):
                             ],
                       status=200)
 
-        self.client = opdb.Client()
+        client = opdb.Client()
         self.assertEqual(
-            self.client.typeahead_search("Metallica", include_groups=True),
+            client.typeahead_search("Metallica", include_groups=True),
             [
                 {
                     "id": "GRBE4",
@@ -155,9 +158,9 @@ class TestClient(unittest.TestCase):
             ],
             status=200)
 
-        self.client = opdb.Client()
+        client = opdb.Client()
         self.assertEqual(
-            self.client.typeahead_search("Metallica", include_aliases=False),
+            client.typeahead_search("Metallica", include_aliases=False),
             [
                 {
                     "id": "GRBE4-MOE4l",
@@ -219,7 +222,7 @@ class TestClient(unittest.TestCase):
             status=200,
         )
 
-        self.client = opdb.Client()
-        response = self.client.get_machine_by_ipdb_id(6028)
+        client = opdb.Client()
+        response = client.get_machine_by_ipdb_id(6028)
         self.assertEqual(responses.calls[-1].response.status_code, 200)
         self.assertEqual(response["ipdb_id"], 6028)
