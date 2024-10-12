@@ -44,6 +44,6 @@ class Client:
     def _get(self, endpoint: str, params: dict = None):
         """ get request helper """
         url = f"{self.base_url}/{endpoint}"
-        response = requests.get(url, headers=self.headers, params=params)
+        response = requests.get(url, headers=self.headers, params=params, timeout=10)
         response.raise_for_status()
         return response.json()
