@@ -1,4 +1,3 @@
 class Client:
-    def __init__(self, api_key: str):
-        self.api_key = api_key
+    def __init__(self):
         self.base_url = "https://opdb.org/api"
