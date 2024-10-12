@@ -3,6 +3,7 @@ import requests
 import responses
 import opdb
 
+
 class TestClient(unittest.TestCase):
     def test_initialization(self):
         self.client = opdb.Client()
@@ -107,25 +108,18 @@ class TestClient(unittest.TestCase):
 
     @responses.activate
     def test_typeahead_search_with_groups(self):
-        responses.add(
-            responses.GET,
-            'https://opdb.org/api/search/typeahead?q=Metallica&include_groups=1',
-            json=[
-                {
-                    "id": "GRBE4",
-                    "text": "Metallica",
-                    "name": "Metallica"
-                },
-                {
-                    "id": "GRBE4-MOE4l",
-                    "text": "Metallica (LE) (Stern, 2012)",
-                    "name": "Metallica (LE)",
-                    "supplementary": "Stern, 2012",
-                    "display": "dmd"
-                },
-            ],
-            status=200
-        )
+        responses.add(responses.GET,
+                      'https://opdb.org/api/search/typeahead?q=Metallica&include_groups=1',
+                      json=[{"id": "GRBE4",
+                             "text": "Metallica",
+                             "name": "Metallica"},
+                            {"id": "GRBE4-MOE4l",
+                             "text": "Metallica (LE) (Stern, 2012)",
+                             "name": "Metallica (LE)",
+                             "supplementary": "Stern, 2012",
+                             "display": "dmd"},
+                            ],
+                      status=200)
 
         self.client = opdb.Client()
         self.assertEqual(
@@ -157,11 +151,9 @@ class TestClient(unittest.TestCase):
                     "text": "Metallica (LE) (Stern, 2012)",
                     "name": "Metallica (LE)",
                     "supplementary": "Stern, 2012",
-                    "display": "dmd"
-                },
+                    "display": "dmd"},
             ],
-            status=200
-        )
+            status=200)
 
         self.client = opdb.Client()
         self.assertEqual(
@@ -196,17 +188,12 @@ class TestClient(unittest.TestCase):
                     "name": "Stern",
                     "full_name": "Stern Pinball, Inc.",
                     "created_at": "2018-03-11",
-                    "updated_at": "2018-03-11"
-                },
+                    "updated_at": "2018-03-11"},
                 "type": "ss",
                 "display": "dmd",
                 "player_count": 4,
-                "features": [
-                    "Pro edition"
-                ],
-                "keywords": [
-                    "music"
-                ],
+                "features": ["Pro edition"],
+                "keywords": ["music"],
                 "description": "",
                 "created_at": "2018-03-11",
                 "updated_at": "2018-03-14",
@@ -218,25 +205,17 @@ class TestClient(unittest.TestCase):
                         "urls": {
                             "medium": "https://img.opdb.org/73b05a42-9dbe-460d-a710-7a01085b4911-medium.jpg",
                             "large": "https://img.opdb.org/73b05a42-9dbe-460d-a710-7a01085b4911-large.jpg",
-                            "small": "https://img.opdb.org/73b05a42-9dbe-460d-a710-7a01085b4911-small.jpg"
-                        },
+                            "small": "https://img.opdb.org/73b05a42-9dbe-460d-a710-7a01085b4911-small.jpg"},
                         "sizes": {
                             "medium": {
                                 "width": 640,
-                                "height": 473
-                            },
+                                "height": 473},
                             "large": {
                                 "width": 812,
-                                "height": 600
-                            },
+                                "height": 600},
                             "small": {
                                 "width": 250,
-                                "height": 185
-                            }
-                        }
-                    }
-                ]
-            },
+                                "height": 185}}}]},
             status=200,
         )
 
