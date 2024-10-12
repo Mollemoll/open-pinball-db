@@ -6,7 +6,9 @@ This is a Python client for the Open Pinball Database API.
 
 To come...
 
-### Usage
+## Usage
+
+### Public API (no authentication required)
 
 #### Get changelog
     
@@ -28,4 +30,20 @@ opdb_client.get_changelog()
 import opdb
 opdb_client = opdb.Client()
 opdb_client.typeahead_search('The Addams Family')
+```
+
+### Private API (authentication required)
+
+Get your free api key at [Open Pinball Database](https://opdb.org/).
+
+#### Get Machine By IPDB ID
+
+| Parameter | Type | Description |
+|---|---|---|
+|ipdb_id|int|The IPDB ID of the machine|
+
+```python
+import opdb
+opdb_client = opdb.Client(api_key="your_secret_api_key")
+opdb_client.get_machine_by_ipdb_id(1234)
 ```
