@@ -1,13 +1,16 @@
 import requests
 
 class Client:
-    def __init__(self):
+    def __init__(self, api_key: str = None):
         self.base_url = "https://opdb.org/api"
+        self.__api_key = api_key
         self.headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
             "User-Agent": "python opdb client"
         }
+        if self.__api_key:
+            self.headers["Authorization"] = f"Bearer {self.__api_key}"
 
     def get_changelog(self):
         return self._public_get(endpoint="changelog")

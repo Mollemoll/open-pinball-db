@@ -15,6 +15,18 @@ class TestClient(unittest.TestCase):
                 "User-Agent": "python opdb client"
             })
 
+    def test_initialization_with_api_key(self):
+        self.client = opdb.Client(api_key="my-secret-api-key")
+        self.assertEqual(self.client.base_url, "https://opdb.org/api")
+        self.assertEqual(
+            self.client.headers,
+            {
+                "Accept": "application/json",
+                "Content-Type": "application/json",
+                "User-Agent": "python opdb client",
+                "Authorization": "Bearer my-secret-api-key"
+            })
+
     @responses.activate
     def test_get_changelog(self):
         """ Get the changelog from the public API """
