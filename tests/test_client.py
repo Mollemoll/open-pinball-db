@@ -1,3 +1,5 @@
+""" Tests for the opdb.Client class. """
+
 import unittest
 import requests
 import responses
@@ -5,6 +7,8 @@ import opdb
 
 
 class TestClient(unittest.TestCase):
+    """ Test the opdb.Client class """
+
     def test_initialization(self):
         """ Test the initialization of the client """
         client = opdb.Client()
@@ -111,6 +115,7 @@ class TestClient(unittest.TestCase):
 
     @responses.activate
     def test_typeahead_search_with_groups(self):
+        """ Test the typeahead search method with groups """
         responses.add(responses.GET,
                       'https://opdb.org/api/search/typeahead?q=Metallica&include_groups=1',
                       json=[{"id": "GRBE4",
@@ -145,6 +150,7 @@ class TestClient(unittest.TestCase):
 
     @responses.activate
     def test_typeahead_search_without_aliases(self):
+        """ Test the typeahead search method without aliases """
         responses.add(
             responses.GET,
             'https://opdb.org/api/search/typeahead?q=Metallica&include_aliases=0',
@@ -174,6 +180,7 @@ class TestClient(unittest.TestCase):
 
     @responses.activate
     def test_get_machine_by_ipdb_id(self):
+        """ Test the get_machine_by_ipdb_id method """
         responses.add(
             responses.GET,
             'https://opdb.org/api/machines/ipdb/6028',
