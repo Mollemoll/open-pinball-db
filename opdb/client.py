@@ -14,6 +14,8 @@ class Client:
 
     def typeahead_search(self, q: str, include_aliases: bool = True, include_groups: bool = False):
         params = { "q": q }
+        if include_aliases is False:
+            params["include_aliases"] = "0"
         if include_groups is True:
             params["include_groups"] = "1"
 
