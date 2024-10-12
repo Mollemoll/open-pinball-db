@@ -61,3 +61,35 @@ class TestClient(unittest.TestCase):
         self.client = opdb.Client()
         with self.assertRaises(requests.exceptions.Timeout):
             self.client.get_changelog()
+
+    @responses.activate
+    def test_typeahead_search(self):
+        responses.add(
+            responses.GET,
+            'https://opdb.org/api/search/typeahead?q=Metallica',
+            json=[
+                {
+                    "id": "GRBE4-MOE4l",
+                    "text": "Metallica (LE) (Stern, 2012)",
+                    "name": "Metallica (LE)",
+                    "supplementary": "Stern, 2012",
+                    "display": "dmd"
+                },
+            ],
+            status=200
+        )
+
+        self.client = opdb.Client()
+        self.assertEqual(
+            self.client.typeahead_search("Metallica"),
+            [
+                {
+                    "id": "GRBE4-MOE4l",
+                    "text": "Metallica (LE) (Stern, 2012)",
+                    "name": "Metallica (LE)",
+                    "supplementary": "Stern, 2012",
+                    "display": "dmd"
+                },
+            ],
+        )
+
