@@ -1,5 +1,6 @@
 import requests
 
+
 class Client:
     def __init__(self, api_key: str = None):
         self.base_url = "https://opdb.org/api"
@@ -15,8 +16,12 @@ class Client:
     def get_changelog(self):
         return self._get(endpoint="changelog")
 
-    def typeahead_search(self, q: str, include_aliases: bool = True, include_groups: bool = False):
-        params = { "q": q }
+    def typeahead_search(
+            self,
+            q: str,
+            include_aliases: bool = True,
+            include_groups: bool = False):
+        params = {"q": q}
         if include_aliases is False:
             params["include_aliases"] = "0"
         if include_groups is True:
