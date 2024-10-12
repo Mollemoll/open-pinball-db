@@ -6,7 +6,6 @@ import requests
 import responses
 import opdb
 
-
 class TestClient(unittest.TestCase):
     """ Test the opdb.Client class """
 
