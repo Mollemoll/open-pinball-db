@@ -181,7 +181,7 @@ class TestClient(unittest.TestCase):
     @responses.activate
     def test_get_machine_by_ipdb_id(self):
         """ Test the get_machine_by_ipdb_id method """
-        with open('fixtures/ipdb_machine.json', 'r', encoding='utf-8') as file:
+        with open('tests/fixtures/ipdb_machine.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
         responses.add(
             responses.GET,
