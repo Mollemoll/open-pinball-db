@@ -7,12 +7,12 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.9"
-requests = "^2.32.3"
-responses = "^0.25.3"
 
 [tool.poetry.group.dev.dependencies]
 pylint = "^3.3.1"
 autopep8 = "^2.3.1"
+requests = "^2.32.3"
+responses = "^0.25.3"
 
 [build-system]
 requires = ["poetry-core"]
