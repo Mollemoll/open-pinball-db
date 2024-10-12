@@ -61,3 +61,106 @@ class TestClient(unittest.TestCase):
         self.client = opdb.Client()
         with self.assertRaises(requests.exceptions.Timeout):
             self.client.get_changelog()
+
+    @responses.activate
+    def test_typeahead_search(self):
+        responses.add(
+            responses.GET,
+            'https://opdb.org/api/search/typeahead?q=Metallica',
+            json=[
+                {
+                    "id": "GRBE4-MOE4l",
+                    "text": "Metallica (LE) (Stern, 2012)",
+                    "name": "Metallica (LE)",
+                    "supplementary": "Stern, 2012",
+                    "display": "dmd"
+                },
+            ],
+            status=200
+        )
+
+        self.client = opdb.Client()
+        self.assertEqual(
+            self.client.typeahead_search("Metallica"),
+            [
+                {
+                    "id": "GRBE4-MOE4l",
+                    "text": "Metallica (LE) (Stern, 2012)",
+                    "name": "Metallica (LE)",
+                    "supplementary": "Stern, 2012",
+                    "display": "dmd"
+                },
+            ],
+        )
+
+    @responses.activate
+    def test_typeahead_search_with_groups(self):
+        responses.add(
+            responses.GET,
+            'https://opdb.org/api/search/typeahead?q=Metallica&include_groups=1',
+            json=[
+                {
+                    "id": "GRBE4",
+                    "text": "Metallica",
+                    "name": "Metallica"
+                },
+                {
+                    "id": "GRBE4-MOE4l",
+                    "text": "Metallica (LE) (Stern, 2012)",
+                    "name": "Metallica (LE)",
+                    "supplementary": "Stern, 2012",
+                    "display": "dmd"
+                },
+            ],
+            status=200
+        )
+
+        self.client = opdb.Client()
+        self.assertEqual(
+            self.client.typeahead_search("Metallica", include_groups=True),
+            [
+                {
+                    "id": "GRBE4",
+                    "text": "Metallica",
+                    "name": "Metallica"
+                },
+                {
+                    "id": "GRBE4-MOE4l",
+                    "text": "Metallica (LE) (Stern, 2012)",
+                    "name": "Metallica (LE)",
+                    "supplementary": "Stern, 2012",
+                    "display": "dmd"
+                },
+            ],
+        )
+
+    @responses.activate
+    def test_typeahead_search_without_aliases(self):
+        responses.add(
+            responses.GET,
+            'https://opdb.org/api/search/typeahead?q=Metallica&include_aliases=0',
+            json=[
+                {
+                    "id": "GRBE4-MOE4l",
+                    "text": "Metallica (LE) (Stern, 2012)",
+                    "name": "Metallica (LE)",
+                    "supplementary": "Stern, 2012",
+                    "display": "dmd"
+                },
+            ],
+            status=200
+        )
+
+        self.client = opdb.Client()
+        self.assertEqual(
+            self.client.typeahead_search("Metallica", include_aliases=False),
+            [
+                {
+                    "id": "GRBE4-MOE4l",
+                    "text": "Metallica (LE) (Stern, 2012)",
+                    "name": "Metallica (LE)",
+                    "supplementary": "Stern, 2012",
+                    "display": "dmd"
+                },
+            ],
+        )
