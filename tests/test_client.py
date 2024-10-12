@@ -49,3 +49,15 @@ class TestClient(unittest.TestCase):
             ]
         )
 
+    @responses.activate
+    def test_get_changelog_timeout(self):
+        """ Simulate a timeout when getting the changelog from the public API """
+        responses.add(
+            responses.GET,
+            'https://opdb.org/api/changelog',
+            body=requests.exceptions.Timeout()
+        )
+
+        self.client = opdb.Client()
+        with self.assertRaises(requests.exceptions.Timeout):
+            self.client.get_changelog()
