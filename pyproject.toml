@@ -17,3 +17,6 @@ responses = "^0.25.3"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[[tool.poetry.packages]]
+include = "opdb"
