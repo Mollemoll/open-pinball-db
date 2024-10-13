@@ -37,6 +37,30 @@ class Client:
             params=params,
         )
 
+    # pylint: disable=R0913,R0917
+    def search(
+            self,
+            q: str,
+            require_opdb: bool = True,
+            include_aliases: bool = True,
+            include_groups: bool = False,
+            include_grouping_entries: bool = False):
+        """ Search """
+        params = {"q": q}
+        if require_opdb is False:
+            params["require_opdb"] = "0"
+        if include_aliases is False:
+            params["include_aliases"] = "0"
+        if include_groups is True:
+            params["include_groups"] = "1"
+        if include_grouping_entries is True:
+            params["include_grouping_entries"] = "1"
+
+        return self._get(
+            endpoint="search",
+            params=params,
+        )
+
     def get_machine(self, opdb_id: str):
         """ Get Machine by Opdb id (requires api key) """
         return self._get(endpoint=f"machines/{opdb_id}")

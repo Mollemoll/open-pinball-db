@@ -179,6 +179,71 @@ class TestClient(unittest.TestCase):
         )
 
     @responses.activate
+    def test_search(self):
+        """ Test the search method """
+        responses.add(
+            responses.GET,
+            'https://opdb.org/api/search?q=Metallica',
+            json=[],
+            status=200)
+
+        client = opdb.Client()
+        client.search("Metallica")
+        self.assertEqual(responses.calls[-1].response.status_code, 200)
+
+    @responses.activate
+    def test_search_with_require_opdb(self):
+        """ Test the search method """
+        responses.add(
+            responses.GET,
+            'https://opdb.org/api/search?q=Metallica&require_opdb=0',
+            json=[],
+            status=200)
+
+        client = opdb.Client()
+        client.search("Metallica", require_opdb = False)
+        self.assertEqual(responses.calls[-1].response.status_code, 200)
+
+    @responses.activate
+    def test_search_without_aliases(self):
+        """ Test the search method """
+        responses.add(
+            responses.GET,
+            'https://opdb.org/api/search?q=Metallica&include_aliases=0',
+            json=[],
+            status=200)
+
+        client = opdb.Client()
+        client.search("Metallica", include_aliases = False)
+        self.assertEqual(responses.calls[-1].response.status_code, 200)
+
+    @responses.activate
+    def test_search_with_groups(self):
+        """ Test the search method """
+        responses.add(
+            responses.GET,
+            'https://opdb.org/api/search?q=Metallica&include_groups=1',
+            json=[],
+            status=200)
+
+        client = opdb.Client()
+        client.search("Metallica", include_groups = True)
+        self.assertEqual(responses.calls[-1].response.status_code, 200)
+
+    @responses.activate
+    def test_search_with_grouping_entries(self):
+        """ Test the search method """
+        responses.add(
+            responses.GET,
+            'https://opdb.org/api/search?q=Metallica&include_grouping_entries=1',
+            json=[],
+            status=200)
+
+        client = opdb.Client()
+        client.search("Metallica", include_grouping_entries = True)
+        self.assertEqual(responses.calls[-1].response.status_code, 200)
+
+    @responses.activate
     def test_get_machine_by_ipdb_id(self):
         """ Test the get_machine_by_ipdb_id method """
         with open('tests/fixtures/machine.json', 'r', encoding='utf-8') as file:

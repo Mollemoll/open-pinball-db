@@ -20,11 +20,11 @@ opdb_client.get_changelog()
 
 #### Typeahead search
 
-| Parameter | Type | Description |
-|---|---|---|
-|query|str|The search query|
-|include_aliases|bool|Whether to include aliases in the search. Default is True.|
-|include_groups|bool|Whether to include groups in the search. Default is False.|
+| Parameter       | Type | Description                                               |
+|-----------------|------|-----------------------------------------------------------|
+| q               | str  | The search query                                          |
+| include_aliases | bool | Whether to include aliases in the search. Default is True |
+| include_groups  | bool | Whether to include groups in the search. Default is False |
 
 ```python
 import opdb
@@ -35,6 +35,22 @@ opdb_client.typeahead_search('The Addams Family')
 ### Private API (authentication required)
 
 Get your free api key at [Open Pinball Database](https://opdb.org/).
+
+#### Search Machines
+
+| Parameter                | Type | Description                                                         |
+|--------------------------|------|---------------------------------------------------------------------|
+| q                        | str  | The search query                                                    |
+| require_opdb             | bool | Limit results to machines with OPDB ids. Defaults to True           | 
+| include_aliases          | bool | Whether to include aliases in the search. Default is True           |
+| include_groups           | bool | Whether to include groups in the search. Default is False           |
+| include_grouping_entries | bool | Whether to include grouping entries in the search. Default is False |
+
+```python
+import opdb
+opdb_client = opdb.Client()
+opdb_client.search('The Addams Family')
+```
 
 #### Get Machine By OPDB ID
 
