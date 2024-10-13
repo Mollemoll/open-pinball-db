@@ -276,3 +276,17 @@ class TestClient(unittest.TestCase):
         response = client.get_machine("GRBE4-MQK1Z")
         self.assertEqual(responses.calls[-1].response.status_code, 200)
         self.assertEqual(response["opdb_id"], "GRBE4-MQK1Z")
+
+    @responses.activate
+    def test_export_machines_and_aliases(self):
+        """ Test the export machines and aliases method """
+        responses.add(
+            responses.GET,
+            'https://opdb.org/api/export',
+            json=[],
+            status=200,
+        )
+
+        client = opdb.Client(api_key="my-secret-api-key")
+        client.export_machines_and_aliases()
+        self.assertEqual(responses.calls[-1].response.status_code, 200)

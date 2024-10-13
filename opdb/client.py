@@ -69,6 +69,13 @@ class Client:
         """ Get Machine by Ipdb id (requires api key) """
         return self._get(endpoint=f"machines/ipdb/{ipdb_id}")
 
+    def export_machines_and_aliases(self):
+        """
+            Export all machines and aliases into one json document (requires api key)
+            Rate limited to once every hour
+        """
+        return self._get(endpoint="export")
+
     def _get(self, endpoint: str, params: dict = None):
         """ get request helper """
         url = f"{self.base_url}/{endpoint}"
