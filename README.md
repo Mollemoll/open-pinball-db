@@ -36,11 +36,23 @@ opdb_client.typeahead_search('The Addams Family')
 
 Get your free api key at [Open Pinball Database](https://opdb.org/).
 
+#### Get Machine By OPDB ID
+
+| Parameter | Type | Description                |
+|-----------|------|----------------------------|
+| opdb_id   | str  | The IPDB ID of the machine |
+
+```python
+import opdb
+opdb_client = opdb.Client(api_key="your_secret_api_key")
+opdb_client.get_machine("OPDB-ID")
+```
+
 #### Get Machine By IPDB ID
 
-| Parameter | Type | Description |
-|---|---|---|
-|ipdb_id|int|The IPDB ID of the machine|
+| Parameter | Type | Description                |
+|-----------|------|----------------------------|
+| ipdb_id   | int  | The IPDB ID of the machine |
 
 ```python
 import opdb
