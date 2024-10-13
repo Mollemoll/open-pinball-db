@@ -72,13 +72,13 @@ class Client:
     def export_machines_and_aliases(self):
         """
             Export all machines and aliases into one json document (requires api key)
-            Rate limited to once every hour
+            According to the OPDB API docs this endpoint is rate limited to once every hour
         """
-        return self._get(endpoint="export")
+        return self._get(endpoint="export",timeout=30)
 
-    def _get(self, endpoint: str, params: dict = None):
+    def _get(self, endpoint: str, params: dict = None, timeout: int = 10):
         """ get request helper """
         url = f"{self.base_url}/{endpoint}"
-        response = requests.get(url, headers=self.headers, params=params, timeout=10)
+        response = requests.get(url, headers=self.headers, params=params, timeout=timeout)
         response.raise_for_status()
         return response.json()
