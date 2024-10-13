@@ -75,3 +75,14 @@ import opdb
 opdb_client = opdb.Client(api_key="your_secret_api_key")
 opdb_client.get_machine_by_ipdb_id(1234)
 ```
+
+#### Export Machines and Aliases
+
+Export all machines and aliases into a big json document. According to the OPDB
+API docs this endpoint is rate limited to once every hour.
+
+```python
+import opdb
+opdb_client = opdb.Client(api_key="your_secret_api_key")
+opdb_client.export_machines_and_aliases()
+```
