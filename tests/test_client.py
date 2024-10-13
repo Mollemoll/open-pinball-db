@@ -187,7 +187,7 @@ class TestClient(unittest.TestCase):
             json=[],
             status=200)
 
-        client = opdb.Client()
+        client = opdb.Client(api_key="my-secret-api-key")
         client.search("Metallica")
         self.assertEqual(responses.calls[-1].response.status_code, 200)
 
@@ -200,7 +200,7 @@ class TestClient(unittest.TestCase):
             json=[],
             status=200)
 
-        client = opdb.Client()
+        client = opdb.Client(api_key="my-secret-api-key")
         client.search("Metallica", require_opdb = False)
         self.assertEqual(responses.calls[-1].response.status_code, 200)
 
@@ -213,7 +213,7 @@ class TestClient(unittest.TestCase):
             json=[],
             status=200)
 
-        client = opdb.Client()
+        client = opdb.Client(api_key="my-secret-api-key")
         client.search("Metallica", include_aliases = False)
         self.assertEqual(responses.calls[-1].response.status_code, 200)
 
@@ -226,7 +226,7 @@ class TestClient(unittest.TestCase):
             json=[],
             status=200)
 
-        client = opdb.Client()
+        client = opdb.Client(api_key="my-secret-api-key")
         client.search("Metallica", include_groups = True)
         self.assertEqual(responses.calls[-1].response.status_code, 200)
 
@@ -239,7 +239,7 @@ class TestClient(unittest.TestCase):
             json=[],
             status=200)
 
-        client = opdb.Client()
+        client = opdb.Client(api_key="my-secret-api-key")
         client.search("Metallica", include_grouping_entries = True)
         self.assertEqual(responses.calls[-1].response.status_code, 200)
 
@@ -255,7 +255,7 @@ class TestClient(unittest.TestCase):
             status=200,
         )
 
-        client = opdb.Client()
+        client = opdb.Client(api_key="my-secret-api-key")
         response = client.get_machine_by_ipdb_id(6028)
         self.assertEqual(responses.calls[-1].response.status_code, 200)
         self.assertEqual(response["ipdb_id"], 6028)
@@ -272,7 +272,7 @@ class TestClient(unittest.TestCase):
             status=200,
         )
 
-        client = opdb.Client()
+        client = opdb.Client(api_key="my-secret-api-key")
         response = client.get_machine("GRBE4-MQK1Z")
         self.assertEqual(responses.calls[-1].response.status_code, 200)
         self.assertEqual(response["opdb_id"], "GRBE4-MQK1Z")
