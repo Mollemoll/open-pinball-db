@@ -290,3 +290,17 @@ class TestClient(unittest.TestCase):
         client = opdb.Client(api_key="my-secret-api-key")
         client.export_machines_and_aliases()
         self.assertEqual(responses.calls[-1].response.status_code, 200)
+
+    @responses.activate
+    def test_export_machine_groups(self):
+        """ Test the export machine groups method """
+        responses.add(
+            responses.GET,
+            'https://opdb.org/api/export/groups',
+            json=[],
+            status=200,
+        )
+
+        client = opdb.Client(api_key="my-secret-api-key")
+        client.export_machine_groups()
+        self.assertEqual(responses.calls[-1].response.status_code, 200)

@@ -76,6 +76,10 @@ class Client:
         """
         return self._get(endpoint="export",timeout=30)
 
+    def export_machine_groups(self):
+        """ Export all machines groups into one json document (requires api key) """
+        return self._get(endpoint="export/groups",timeout=30)
+
     def _get(self, endpoint: str, params: dict = None, timeout: int = 10):
         """ get request helper """
         url = f"{self.base_url}/{endpoint}"

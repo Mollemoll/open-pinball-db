@@ -86,3 +86,13 @@ import opdb
 opdb_client = opdb.Client(api_key="your_secret_api_key")
 opdb_client.export_machines_and_aliases()
 ```
+
+#### Export Machines Groups
+
+Export all machine groups as a single JSON document.
+
+```python
+import opdb
+opdb_client = opdb.Client(api_key="your_secret_api_key")
+opdb_client.export_machine_groups()
+```
