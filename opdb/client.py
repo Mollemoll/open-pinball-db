@@ -37,6 +37,10 @@ class Client:
             params=params,
         )
 
+    def get_machine(self, opdb_id: str):
+        """ Get Machine by Opdb id (requires api key) """
+        return self._get(endpoint=f"machines/{opdb_id}")
+
     def get_machine_by_ipdb_id(self, ipdb_id: int):
         """ Get Machine by Ipdb id (requires api key) """
         return self._get(endpoint=f"machines/ipdb/{ipdb_id}")

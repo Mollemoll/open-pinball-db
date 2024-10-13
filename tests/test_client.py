@@ -181,7 +181,7 @@ class TestClient(unittest.TestCase):
     @responses.activate
     def test_get_machine_by_ipdb_id(self):
         """ Test the get_machine_by_ipdb_id method """
-        with open('tests/fixtures/ipdb_machine.json', 'r', encoding='utf-8') as file:
+        with open('tests/fixtures/machine.json', 'r', encoding='utf-8') as file:
             data = json.load(file)
         responses.add(
             responses.GET,
@@ -194,3 +194,20 @@ class TestClient(unittest.TestCase):
         response = client.get_machine_by_ipdb_id(6028)
         self.assertEqual(responses.calls[-1].response.status_code, 200)
         self.assertEqual(response["ipdb_id"], 6028)
+
+    @responses.activate
+    def test_get_machine(self):
+        """ Test the get_machine method """
+        with open('tests/fixtures/machine.json', 'r', encoding='utf-8') as file:
+            data = json.load(file)
+        responses.add(
+            responses.GET,
+            'https://opdb.org/api/machines/GRBE4-MQK1Z',
+            json=data,
+            status=200,
+        )
+
+        client = opdb.Client()
+        response = client.get_machine("GRBE4-MQK1Z")
+        self.assertEqual(responses.calls[-1].response.status_code, 200)
+        self.assertEqual(response["opdb_id"], "GRBE4-MQK1Z")
