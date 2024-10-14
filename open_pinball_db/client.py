@@ -12,7 +12,7 @@ class Client:
         self.headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "User-Agent": "python open_pinball_db client"
+            "User-Agent": "python open-pinball-db client"
         }
         if self.__api_key:
             self.headers["Authorization"] = f"Bearer {self.__api_key}"

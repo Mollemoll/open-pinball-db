@@ -5,9 +5,9 @@ description = "An open pinball database client for Python"
 authors = ["Mollemoll <jonas.molander@gmail.com>"]
 readme = "README.md"
 license = "MIT"
-homepage = "https://github.com/Mollemoll/python_opdb_client"
-repository = "https://github.com/Mollemoll/python_opdb_client"
-documentation = "https://github.com/Mollemoll/python_opdb_client#readme"
+homepage = "https://github.com/Mollemoll/open-pinball-db"
+repository = "https://github.com/Mollemoll/open-pinball-db"
+documentation = "https://github.com/Mollemoll/open-pinball-db#readme"
 keywords = ["pinball", "database", "client"]
 classifiers = [
     "Intended Audience :: Developers",

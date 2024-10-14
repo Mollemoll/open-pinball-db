@@ -5,7 +5,7 @@ This is a Python client for the Open Pinball Database API.
 ### Installation
 
 ```bash
-pip install open_pinball_db
+pip install open-pinball-db
 ```
 
 ```python
