@@ -1,4 +1,4 @@
-""" This module contains the exceptions raised by the Opdb API client """
+""" This module contains the exceptions raised by the Open Pinball DB API client """
 
 class OpdbError(Exception):
     """Base class for Opdb exceptions"""
