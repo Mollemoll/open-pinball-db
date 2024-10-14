@@ -1,7 +1,7 @@
 """ Opdb """
 
-from .exceptions import OpdbMissingApiKey, OpdbHTTPError, OpdbTimeoutError
 import requests
+from .exceptions import OpdbMissingApiKey, OpdbHTTPError, OpdbTimeoutError
 
 class Client:
     """ The Opdb Client """
@@ -99,6 +99,6 @@ class Client:
         return response.json()
 
     def _ensure_api_key(self):
+        """Ensure that the API key is present."""
         if not self.__api_key:
-            """Ensure that the API key is present."""
             raise OpdbMissingApiKey("API key is missing")

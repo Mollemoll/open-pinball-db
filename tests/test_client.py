@@ -6,6 +6,7 @@ import requests
 import responses
 import opdb
 
+# pylint: disable=too-many-public-methods
 class TestClient(unittest.TestCase):
     """ Test the opdb.Client class """
 
