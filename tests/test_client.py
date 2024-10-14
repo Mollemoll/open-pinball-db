@@ -1,4 +1,4 @@
-""" Tests for the open_pinball_db.Client class. """
+""" Tests for the open-pinball-db.Client class. """
 
 import unittest
 import json
@@ -8,7 +8,7 @@ import open_pinball_db
 
 # pylint: disable=too-many-public-methods
 class TestClient(unittest.TestCase):
-    """ Test the open_pinball_db.Client class """
+    """ Test the open-pinball-db.Client class """
 
     def test_initialization(self):
         """ Test the initialization of the client """
@@ -19,7 +19,7 @@ class TestClient(unittest.TestCase):
             {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
-                "User-Agent": "python open_pinball_db client"
+                "User-Agent": "python open-pinball-db client"
             })
 
     def test_initialization_with_api_key(self):
@@ -31,7 +31,7 @@ class TestClient(unittest.TestCase):
             {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
-                "User-Agent": "python open_pinball_db client",
+                "User-Agent": "python open-pinball-db client",
                 "Authorization": "Bearer my-secret-api-key"
             })
 
