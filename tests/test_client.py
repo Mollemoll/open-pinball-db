@@ -1,37 +1,37 @@
-""" Tests for the opdb.Client class. """
+""" Tests for the open_pinball_db.Client class. """
 
 import unittest
 import json
 import requests
 import responses
-import opdb
+import open_pinball_db
 
 # pylint: disable=too-many-public-methods
 class TestClient(unittest.TestCase):
-    """ Test the opdb.Client class """
+    """ Test the open_pinball_db.Client class """
 
     def test_initialization(self):
         """ Test the initialization of the client """
-        client = opdb.Client()
+        client = open_pinball_db.Client()
         self.assertEqual(client.base_url, "https://opdb.org/api")
         self.assertEqual(
             client.headers,
             {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
-                "User-Agent": "python opdb client"
+                "User-Agent": "python open_pinball_db client"
             })
 
     def test_initialization_with_api_key(self):
         """ Test the initialization of the client with an api key"""
-        client = opdb.Client(api_key="my-secret-api-key")
+        client = open_pinball_db.Client(api_key="my-secret-api-key")
         self.assertEqual(client.base_url, "https://opdb.org/api")
         self.assertEqual(
             client.headers,
             {
                 "Accept": "application/json",
                 "Content-Type": "application/json",
-                "User-Agent": "python opdb client",
+                "User-Agent": "python open_pinball_db client",
                 "Authorization": "Bearer my-secret-api-key"
             })
 
@@ -54,7 +54,7 @@ class TestClient(unittest.TestCase):
             status=200
         )
 
-        client = opdb.Client()
+        client = open_pinball_db.Client()
         self.assertEqual(
             client.get_changelog(),
             [
@@ -78,8 +78,8 @@ class TestClient(unittest.TestCase):
             body=requests.exceptions.Timeout()
         )
 
-        client = opdb.Client()
-        with self.assertRaises(opdb.OpdbTimeoutError):
+        client = open_pinball_db.Client()
+        with self.assertRaises(open_pinball_db.OpdbTimeoutError):
             client.get_changelog()
 
     @responses.activate
@@ -100,7 +100,7 @@ class TestClient(unittest.TestCase):
             status=200
         )
 
-        client = opdb.Client()
+        client = open_pinball_db.Client()
         self.assertEqual(
             client.typeahead_search("Metallica"),
             [
@@ -130,7 +130,7 @@ class TestClient(unittest.TestCase):
                             ],
                       status=200)
 
-        client = opdb.Client()
+        client = open_pinball_db.Client()
         self.assertEqual(
             client.typeahead_search("Metallica", include_groups=True),
             [
@@ -165,7 +165,7 @@ class TestClient(unittest.TestCase):
             ],
             status=200)
 
-        client = opdb.Client()
+        client = open_pinball_db.Client()
         self.assertEqual(
             client.typeahead_search("Metallica", include_aliases=False),
             [
@@ -188,7 +188,7 @@ class TestClient(unittest.TestCase):
             json=[],
             status=200)
 
-        client = opdb.Client(api_key="my-secret-api-key")
+        client = open_pinball_db.Client(api_key="my-secret-api-key")
         client.search("Metallica")
         self.assertEqual(responses.calls[-1].response.status_code, 200)
 
@@ -201,7 +201,7 @@ class TestClient(unittest.TestCase):
             json=[],
             status=200)
 
-        client = opdb.Client(api_key="my-secret-api-key")
+        client = open_pinball_db.Client(api_key="my-secret-api-key")
         client.search("Metallica", require_opdb = False)
         self.assertEqual(responses.calls[-1].response.status_code, 200)
 
@@ -214,7 +214,7 @@ class TestClient(unittest.TestCase):
             json=[],
             status=200)
 
-        client = opdb.Client(api_key="my-secret-api-key")
+        client = open_pinball_db.Client(api_key="my-secret-api-key")
         client.search("Metallica", include_aliases = False)
         self.assertEqual(responses.calls[-1].response.status_code, 200)
 
@@ -227,7 +227,7 @@ class TestClient(unittest.TestCase):
             json=[],
             status=200)
 
-        client = opdb.Client(api_key="my-secret-api-key")
+        client = open_pinball_db.Client(api_key="my-secret-api-key")
         client.search("Metallica", include_groups = True)
         self.assertEqual(responses.calls[-1].response.status_code, 200)
 
@@ -240,14 +240,14 @@ class TestClient(unittest.TestCase):
             json=[],
             status=200)
 
-        client = opdb.Client(api_key="my-secret-api-key")
+        client = open_pinball_db.Client(api_key="my-secret-api-key")
         client.search("Metallica", include_grouping_entries = True)
         self.assertEqual(responses.calls[-1].response.status_code, 200)
 
     def test_search_without_api_key(self):
         """ Test the search method without an api key """
-        client = opdb.Client()
-        with self.assertRaises(opdb.OpdbMissingApiKey):
+        client = open_pinball_db.Client()
+        with self.assertRaises(open_pinball_db.OpdbMissingApiKey):
             client.search("Metallica")
 
     @responses.activate
@@ -262,15 +262,15 @@ class TestClient(unittest.TestCase):
             status=200,
         )
 
-        client = opdb.Client(api_key="my-secret-api-key")
+        client = open_pinball_db.Client(api_key="my-secret-api-key")
         response = client.get_machine_by_ipdb_id(6028)
         self.assertEqual(responses.calls[-1].response.status_code, 200)
         self.assertEqual(response["ipdb_id"], 6028)
 
     def test_get_machine_by_ipdb_id_without_api_key(self):
         """ Test the get machine by ipdb id method without an api key """
-        client = opdb.Client()
-        with self.assertRaises(opdb.OpdbMissingApiKey):
+        client = open_pinball_db.Client()
+        with self.assertRaises(open_pinball_db.OpdbMissingApiKey):
             client.get_machine_by_ipdb_id(6028)
 
     @responses.activate
@@ -285,15 +285,15 @@ class TestClient(unittest.TestCase):
             status=200,
         )
 
-        client = opdb.Client(api_key="my-secret-api-key")
+        client = open_pinball_db.Client(api_key="my-secret-api-key")
         response = client.get_machine("GRBE4-MQK1Z")
         self.assertEqual(responses.calls[-1].response.status_code, 200)
         self.assertEqual(response["opdb_id"], "GRBE4-MQK1Z")
 
     def test_get_machine_without_api_key(self):
         """ Test the get machine method without an api key """
-        client = opdb.Client()
-        with self.assertRaises(opdb.OpdbMissingApiKey):
+        client = open_pinball_db.Client()
+        with self.assertRaises(open_pinball_db.OpdbMissingApiKey):
             client.get_machine("GRBE4-MQK1Z")
 
     @responses.activate
@@ -306,14 +306,14 @@ class TestClient(unittest.TestCase):
             status=200,
         )
 
-        client = opdb.Client(api_key="my-secret-api-key")
+        client = open_pinball_db.Client(api_key="my-secret-api-key")
         client.export_machines_and_aliases()
         self.assertEqual(responses.calls[-1].response.status_code, 200)
 
     def test_export_machines_and_aliases_without_api_key(self):
         """ Test the export machines and aliases without an api key """
-        client = opdb.Client()
-        with self.assertRaises(opdb.OpdbMissingApiKey):
+        client = open_pinball_db.Client()
+        with self.assertRaises(open_pinball_db.OpdbMissingApiKey):
             client.export_machines_and_aliases()
 
     @responses.activate
@@ -326,14 +326,14 @@ class TestClient(unittest.TestCase):
             status=200,
         )
 
-        client = opdb.Client(api_key="my-secret-api-key")
+        client = open_pinball_db.Client(api_key="my-secret-api-key")
         client.export_machine_groups()
         self.assertEqual(responses.calls[-1].response.status_code, 200)
 
     def test_export_machine_groups_without_api_key(self):
         """ Test the export machine groups method without an api key """
-        client = opdb.Client()
-        with self.assertRaises(opdb.OpdbMissingApiKey):
+        client = open_pinball_db.Client()
+        with self.assertRaises(open_pinball_db.OpdbMissingApiKey):
             client.export_machine_groups()
 
     def test_export_opdb_http_error(self):
@@ -344,6 +344,6 @@ class TestClient(unittest.TestCase):
             json=[],
             status=429,
         )
-        client = opdb.Client(api_key="my-secret-api-key")
-        with self.assertRaises(opdb.OpdbHTTPError):
+        client = open_pinball_db.Client(api_key="my-secret-api-key")
+        with self.assertRaises(open_pinball_db.OpdbHTTPError):
             client.export_machines_and_aliases()

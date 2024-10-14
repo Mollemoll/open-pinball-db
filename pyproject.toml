@@ -1,9 +1,14 @@
 [tool.poetry]
-name = "python_opdb_client"
+name = "open-pinball-db"
 version = "0.1.0"
 description = "An open pinball database client for Python"
 authors = ["Mollemoll <jonas.molander@gmail.com>"]
 readme = "README.md"
+license = "MIT"
+homepage = "https://github.com/Mollemoll/python_opdb_client"
+repository = "https://github.com/Mollemoll/python_opdb_client"
+documentation = "https://github.com/Mollemoll/python_opdb_client#readme"
+keywords = ["pinball", "database", "client"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
@@ -20,5 +25,13 @@ autopep8 = "^2.3.1"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
-[[tool.poetry.packages]]
-include = "opdb"
+[tool.poetry.classifiers]
+classifiers = [
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Topic :: Software Development :: Libraries",
+    "Topic :: Software Development :: Libraries :: Python Modules"
+]

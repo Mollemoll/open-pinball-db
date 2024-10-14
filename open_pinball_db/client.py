@@ -1,4 +1,4 @@
-""" Opdb """
+""" Open Pinball DB Client """
 
 import requests
 from .exceptions import OpdbMissingApiKey, OpdbHTTPError, OpdbTimeoutError
@@ -12,7 +12,7 @@ class Client:
         self.headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
-            "User-Agent": "python opdb client"
+            "User-Agent": "python open_pinball_db client"
         }
         if self.__api_key:
             self.headers["Authorization"] = f"Bearer {self.__api_key}"
