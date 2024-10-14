@@ -1,6 +1,6 @@
 """ Opdb """
 
-from .exceptions import OpdbMissingApiKey
+from .exceptions import OpdbMissingApiKey, OpdbHTTPError
 import requests
 
 class Client:
@@ -89,8 +89,11 @@ class Client:
     def _get(self, endpoint: str, params: dict = None, timeout: int = 10):
         """ get request helper """
         url = f"{self.base_url}/{endpoint}"
-        response = requests.get(url, headers=self.headers, params=params, timeout=timeout)
-        response.raise_for_status()
+        try:
+            response = requests.get(url, headers=self.headers, params=params, timeout=timeout)
+            response.raise_for_status()
+        except requests.exceptions.HTTPError as http_err:
+            raise OpdbHTTPError(response.status_code, response.text) from http_err
         return response.json()
 
     def _ensure_api_key(self):

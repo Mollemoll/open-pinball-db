@@ -334,3 +334,15 @@ class TestClient(unittest.TestCase):
         client = opdb.Client()
         with self.assertRaises(opdb.OpdbMissingApiKey):
             client.export_machine_groups()
+
+    def test_export_opdb_http_error(self):
+        """ Test the export method with an HTTP error """
+        responses.add(
+            responses.GET,
+            'https://opdb.org/api/export',
+            json=[],
+            status=429,
+        )
+        client = opdb.Client(api_key="my-secret-api-key")
+        with self.assertRaises(opdb.OpdbHTTPError):
+            client.export_machines_and_aliases()
