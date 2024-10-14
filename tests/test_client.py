@@ -243,6 +243,12 @@ class TestClient(unittest.TestCase):
         client.search("Metallica", include_grouping_entries = True)
         self.assertEqual(responses.calls[-1].response.status_code, 200)
 
+    def test_search_without_api_key(self):
+        """ Test the search method without an api key """
+        client = opdb.Client()
+        with self.assertRaises(opdb.OpdbMissingApiKey):
+            client.search("Metallica")
+
     @responses.activate
     def test_get_machine_by_ipdb_id(self):
         """ Test the get_machine_by_ipdb_id method """
@@ -259,6 +265,12 @@ class TestClient(unittest.TestCase):
         response = client.get_machine_by_ipdb_id(6028)
         self.assertEqual(responses.calls[-1].response.status_code, 200)
         self.assertEqual(response["ipdb_id"], 6028)
+
+    def test_get_machine_by_ipdb_id_without_api_key(self):
+        """ Test the get machine by ipdb id method without an api key """
+        client = opdb.Client()
+        with self.assertRaises(opdb.OpdbMissingApiKey):
+            client.get_machine_by_ipdb_id(6028)
 
     @responses.activate
     def test_get_machine(self):
@@ -277,6 +289,12 @@ class TestClient(unittest.TestCase):
         self.assertEqual(responses.calls[-1].response.status_code, 200)
         self.assertEqual(response["opdb_id"], "GRBE4-MQK1Z")
 
+    def test_get_machine_without_api_key(self):
+        """ Test the get machine method without an api key """
+        client = opdb.Client()
+        with self.assertRaises(opdb.OpdbMissingApiKey):
+            client.get_machine("GRBE4-MQK1Z")
+
     @responses.activate
     def test_export_machines_and_aliases(self):
         """ Test the export machines and aliases method """
@@ -291,6 +309,12 @@ class TestClient(unittest.TestCase):
         client.export_machines_and_aliases()
         self.assertEqual(responses.calls[-1].response.status_code, 200)
 
+    def test_export_machines_and_aliases_without_api_key(self):
+        """ Test the export machines and aliases without an api key """
+        client = opdb.Client()
+        with self.assertRaises(opdb.OpdbMissingApiKey):
+            client.export_machines_and_aliases()
+
     @responses.activate
     def test_export_machine_groups(self):
         """ Test the export machine groups method """
@@ -304,3 +328,9 @@ class TestClient(unittest.TestCase):
         client = opdb.Client(api_key="my-secret-api-key")
         client.export_machine_groups()
         self.assertEqual(responses.calls[-1].response.status_code, 200)
+
+    def test_export_machine_groups_without_api_key(self):
+        """ Test the export machine groups method without an api key """
+        client = opdb.Client()
+        with self.assertRaises(opdb.OpdbMissingApiKey):
+            client.export_machine_groups()

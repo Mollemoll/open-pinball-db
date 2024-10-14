@@ -1,5 +1,6 @@
 """ Opdb """
 
+from .exceptions import OpdbMissingApiKey
 import requests
 
 class Client:
@@ -46,6 +47,7 @@ class Client:
             include_groups: bool = False,
             include_grouping_entries: bool = False):
         """ Search """
+        self._ensure_api_key()
         params = {"q": q}
         if require_opdb is False:
             params["require_opdb"] = "0"
@@ -63,10 +65,12 @@ class Client:
 
     def get_machine(self, opdb_id: str):
         """ Get Machine by Opdb id (requires api key) """
+        self._ensure_api_key()
         return self._get(endpoint=f"machines/{opdb_id}")
 
     def get_machine_by_ipdb_id(self, ipdb_id: int):
         """ Get Machine by Ipdb id (requires api key) """
+        self._ensure_api_key()
         return self._get(endpoint=f"machines/ipdb/{ipdb_id}")
 
     def export_machines_and_aliases(self):
@@ -74,10 +78,12 @@ class Client:
             Export all machines and aliases into one json document (requires api key)
             According to the OPDB API docs this endpoint is rate limited to once every hour
         """
+        self._ensure_api_key()
         return self._get(endpoint="export",timeout=30)
 
     def export_machine_groups(self):
         """ Export all machines groups into one json document (requires api key) """
+        self._ensure_api_key()
         return self._get(endpoint="export/groups",timeout=30)
 
     def _get(self, endpoint: str, params: dict = None, timeout: int = 10):
@@ -86,3 +92,8 @@ class Client:
         response = requests.get(url, headers=self.headers, params=params, timeout=timeout)
         response.raise_for_status()
         return response.json()
+
+    def _ensure_api_key(self):
+        if not self.__api_key:
+            """Ensure that the API key is present."""
+            raise OpdbMissingApiKey("API key is missing")
