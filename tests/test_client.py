@@ -78,7 +78,7 @@ class TestClient(unittest.TestCase):
         )
 
         client = opdb.Client()
-        with self.assertRaises(requests.exceptions.Timeout):
+        with self.assertRaises(opdb.OpdbTimeoutError):
             client.get_changelog()
 
     @responses.activate

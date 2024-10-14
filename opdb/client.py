@@ -1,6 +1,6 @@
 """ Opdb """
 
-from .exceptions import OpdbMissingApiKey, OpdbHTTPError
+from .exceptions import OpdbMissingApiKey, OpdbHTTPError, OpdbTimeoutError
 import requests
 
 class Client:
@@ -94,6 +94,8 @@ class Client:
             response.raise_for_status()
         except requests.exceptions.HTTPError as http_err:
             raise OpdbHTTPError(response.status_code, response.text) from http_err
+        except requests.exceptions.Timeout as timeout_err:
+            raise OpdbTimeoutError() from timeout_err
         return response.json()
 
     def _ensure_api_key(self):
