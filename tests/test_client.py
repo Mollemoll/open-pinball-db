@@ -347,3 +347,6 @@ class TestClient(unittest.TestCase):
         client = open_pinball_db.Client(api_key="my-secret-api-key")
         with self.assertRaises(open_pinball_db.OpdbHTTPError):
             client.export_machines_and_aliases()
+
+if __name__ == '__main__':
+    unittest.main()
