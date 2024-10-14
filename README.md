@@ -96,3 +96,14 @@ import opdb
 opdb_client = opdb.Client(api_key="your_secret_api_key")
 opdb_client.export_machine_groups()
 ```
+
+### Handling Exceptions
+
+The client can raise the following exceptions:
+
+| Exception         | Description                                                                   |
+|-------------------|-------------------------------------------------------------------------------|
+| OpdbError         | Base exception class for all exceptions                                       |
+| OpdbMissingApiKey | Raised when trying to access private parts of the OPDB API without an API key |
+| OpdbHttpError     | Raised upon http errors. Contains status code and message.                    |
+| OpdbTimeoutError  | Raised upon timeout errors.                                                   |
